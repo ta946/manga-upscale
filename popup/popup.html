@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+    <div class="container">
+        <div class="scroll">
+            <h2>Manga Upscale</h2>
+
+            <div>
+                <div class="setting-group toggle-group">
+                    <label for="enabled">Upscaling</label>
+                    <button id="scopeBtn" class="scope-btn" type="button" aria-pressed="false"
+                            title="Apply to this window only (not saved)">
+                        <svg viewBox="0 0 16 16" width="14" height="14" aria-hidden="true">
+                            <rect x="1.5" y="2.5" width="13" height="9" rx="1.2" fill="none" stroke="currentColor" stroke-width="1.4"/>
+                            <path d="M5.5 14h5M8 11.5V14" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                        </svg>
+                    </button>
+                    <label class="switch" aria-label="Enable upscaling">
+                        <input type="checkbox" id="enabled">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div id="scopeNote" class="scope-note" hidden>Window only: changes apply to this page and are not saved.</div>
+            </div>
+
+            <div class="setting-group">
+                <label for="ramMode">Memory Profile:</label>
+                <select id="ramMode">
+                    <option value="low">Low RAM Usage</option>
+                    <option value="aggressive">Aggressive Pre-fetching</option>
+                </select>
+            </div>
+
+            <div class="setting-group">
+                <label for="engine">Processing Engine:</label>
+                <select id="engine">
+                    <option value="canvas">Canvas (Fast 2D Scaling)</option>
+                    <option value="anime4k-webgl">Anime4K WebGL</option>
+                    <option value="anime4k-webgpu">Anime4K WebGPU</option>
+                    <option value="onnx">ONNX Runtime Web</option>
+                </select>
+            </div>
+
+            <div class="setting-group" id="onnxModelGroup" style="display: none;">
+                <label for="onnxModel">ONNX Model:</label>
+                <select id="onnxModel"></select>
+            </div>
+
+            <!-- Live status of the active tab -->
+            <div id="status" class="status" hidden>
+                <div class="status-line"><span id="statusDot" class="dot"></span><span id="statusText"></span></div>
+                <div id="statusStats" class="status-sub"></div>
+                <div id="statusImages" class="status-sub"></div>
+                <div id="statusLocal" class="status-sub local" hidden>
+                    <span id="statusLocalText"></span> <button id="revertBtn" class="link" type="button">Revert</button>
+                </div>
+                <div id="statusError" class="status-error" hidden></div>
+                <button id="retryBtn" class="secondary" hidden>Retry ONNX</button>
+            </div>
+
+            <details id="advanced">
+                <summary>Advanced</summary>
+
+                <div class="setting-group">
+                    <label for="maxOutputWidth">Max output width (px, 0 = no limit)</label>
+                    <input type="number" id="maxOutputWidth" min="0" step="50">
+                </div>
+                <div class="setting-group">
+                    <label for="oversizeMode">Images too large for one GPU pass:</label>
+                    <select id="oversizeMode">
+                        <option value="downscale">Downscale first (fastest)</option>
+                        <option value="tile">Tile (keeps full detail)</option>
+                    </select>
+                </div>
+                <div class="setting-group">
+                    <label for="workerStart">Start worker:</label>
+                    <select id="workerStart">
+                        <option value="auto">When a reader page opens</option>
+                        <option value="lazy">At the first image</option>
+                    </select>
+                </div>
+                <div class="setting-group toggle-group">
+                    <label for="verboseLogs">Verbose console logs</label>
+                    <label class="switch" aria-label="Verbose logs">
+                        <input type="checkbox" id="verboseLogs">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="hint">Each model pass is capped by a built-in GPU-memory guard (larger passes can crash the GPU). Larger images are tiled or have only the model input shrunk; the output width is never changed by it.</div>
+            </details>
+        </div>
+
+        <!-- Pinned: never scrolls away, even with Advanced open -->
+        <div class="footer">
+            <button id="resetBtn" class="secondary" type="button"
+                    title="Undo all upscaling on this page and start processing again">Reset page</button>
+            <button id="saveBtn" type="button">Save Settings</button>
+        </div>
+    </div>
+    <script src="../content/settings.js"></script>
+    <script src="popup.js"></script>
+</body>
+</html>

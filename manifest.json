@@ -1,0 +1,64 @@
+{
+  "manifest_version": 3,
+  "name": "Manga Upscale",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "activeTab",
+    "contextMenus"
+  ],
+  "host_permissions": [
+    "*://nelomanga.net/*",
+    "*://*.nelomanga.net/*",
+    "*://2xstorage.com/*",
+    "*://*.2xstorage.com/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://nelomanga.net/manga/*",
+        "*://*.nelomanga.net/manga/*"
+      ],
+      "js": [
+        "node_modules/anime4k-webgl/anime4k.js",
+        "node_modules/anime4k-webgpu/lib/index.js",
+        "content/log.js",
+        "content/settings.js",
+        "content/viewport.js",
+        "content/queue.js",
+        "content/onnx-client.js",
+        "content/engine-manager.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "models.json",
+        "bridge/bridge.html"
+      ],
+      "matches": [
+        "*://nelomanga.net/*",
+        "*://*.nelomanga.net/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self';"
+  },
+  "icons": {
+    "16": "icon-32.png",
+    "32": "icon-32.png",
+    "48": "icon-32.png",
+    "128": "icon-32.png"
+  }
+}

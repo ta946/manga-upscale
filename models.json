@@ -1,0 +1,20 @@
+{
+  "models": [
+    {
+      "name": "RealESR AnimeVideo v3",
+      "path": "models/realesr-animevideov3.onnx"
+    },
+    {
+      "name": "IllustrationJaNai 2x V1",
+      "path": "models/2x_IllustrationJaNai_V1_ESRGAN_120k.onnx"
+    },
+    {
+      "name": "MangaJaNai 2x 1200p V1",
+      "path": "models/2x_MangaJaNai_1200p_V1_ESRGAN_70k.onnx"
+    },
+    {
+      "name": "MangaJaNai 2x 1600p V1",
+      "path": "models/2x_MangaJaNai_1600p_V1_ESRGAN_90k.onnx"
+    }
+  ]
+}
